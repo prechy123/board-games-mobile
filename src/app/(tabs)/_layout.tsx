@@ -7,8 +7,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "BATCH TOOLS",
+          title: "Home",
           headerTitleAlign: "left",
+          headerTitle: "BOARD GAMES",
           tabBarIcon: ({ color }) => (
             <SimpleLineIcons name="home" size={24} color={color} />
           ),

@@ -1,14 +1,8 @@
-import HomeButton from "@/src/components/HomeButton";
-import { Link } from "expo-router";
-import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import MyButton from "@/src/components/MyButton";
+import { Appearance, StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 
-interface IGames {
-  title: string;
-  link: "/" | "/tic-tac-toe";
-}
-
-const games: IGames[] = [
+const games = [
   { title: "Tic Tac Toe", link: "/tic-tac-toe" },
   { title: "Chess", link: "/" },
   { title: "Checkers", link: "/" },
@@ -23,9 +17,11 @@ export default function Index() {
 
       {games.map((game) => (
         <View key={game.title} style={styles.gameBtn}>
-          <HomeButton title={game.title} link={game.link} />
+          <MyButton title={game.title} link={game.link} />
         </View>
       ))}
+      <MyButton link="/sign-in" title="Sign in" />
+      <MyButton link="/sign-up" title="Sign up" />
     </View>
   );
 }
@@ -34,9 +30,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 25,
+    alignItems: "center",
   },
   gameBtn: {
     marginVertical: 7,
+    width: 250
   },
   heading: {
     textAlign: "center",
