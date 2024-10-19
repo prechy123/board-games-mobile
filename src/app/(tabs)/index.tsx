@@ -29,8 +29,9 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 25,
+    marginHorizontal: 25,
     alignItems: "center",
+    justifyContent: "center",
   },
   gameBtn: {
     marginVertical: 7,

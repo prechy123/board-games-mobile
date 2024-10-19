@@ -1,15 +1,24 @@
-import { StyleSheet, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  View,
+} from "react-native";
 import { Text } from "react-native-paper";
 import MyTextInput from "../components/MyTextInput";
 import { useState } from "react";
 import MyButton from "../components/MyButton";
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
 
 export default function signInScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <Stack.Screen options={{headerBackTitle: "Back"}} />
       <Text style={styles.heading}>Create an account with Board Games</Text>
       <View>
         <View style={styles.inputContainer}>
@@ -27,15 +36,16 @@ export default function signInScreen() {
           Already have an account? Sign in
         </Text>
       </Link>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 25,
+    marginHorizontal: 25,
     alignItems: "center",
+    justifyContent: "center",
   },
   heading: {
     textAlign: "center",

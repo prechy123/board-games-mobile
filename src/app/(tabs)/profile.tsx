@@ -1,7 +1,14 @@
 import MyButton from "@/src/components/MyButton";
 import MyTextInput from "@/src/components/MyTextInput";
 import { useState } from "react";
-import { Image, Pressable, StyleSheet, View } from "react-native";
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
+  View,
+} from "react-native";
 import { Text } from "react-native-paper";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -32,9 +39,11 @@ export default function Settings() {
     }
   };
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <View style={{ width: 250, alignItems: "center" }}>
-        <Text style={styles.heading}>My Profile</Text>
         <View style={{ width: 250 }}>
           <MyTextInput
             label="User Name"
@@ -71,20 +80,16 @@ export default function Settings() {
           <MyButton title="Update" />
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 25,
+    marginHorizontal: 25,
     alignItems: "center",
-  },
-  heading: {
-    textAlign: "center",
-    fontSize: 30,
-    marginBottom: 15,
+    justifyContent: "center",
   },
   subHeading: {
     fontWeight: "bold",

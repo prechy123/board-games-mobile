@@ -2,14 +2,24 @@ import MyButton from "@/src/components/MyButton";
 import MyTextInput from "@/src/components/MyTextInput";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Button, Platform, StyleSheet, View } from "react-native";
+import {
+  Button,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { Text } from "react-native-paper";
 
 export default function TicTacToxIndex() {
   const router = useRouter();
   const [code, setCode] = useState<string>("");
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <Text style={styles.heading}>Tic Tac Toe</Text>
 
       <View>
@@ -30,24 +40,25 @@ export default function TicTacToxIndex() {
           <MyTextInput label="Enter Code" text={code} setText={setCode} />
         </View>
         <View style={{ flex: 0.3 }}>
-          <MyButton link="/tic-tac-toe/game" title="Join Game" />
+          <MyButton link="/tic-tac-toe/game" title="Join" />
         </View>
       </View>
 
       {Platform.OS === "ios" && (
-        <View style={{marginTop: 30}}>
-
-        <Button title="Back" onPress={() => router.back()} />
+        <View style={{ marginTop: 30 }}>
+          <Button title="Back" onPress={() => router.back()} />
         </View>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 25,
+    marginHorizontal: 25,
+    alignItems: "center",
+    justifyContent: "center",
   },
   heading: {
     fontSize: 30,
