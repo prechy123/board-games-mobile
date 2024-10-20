@@ -17,6 +17,7 @@ import { showErrorToast } from "@/src/utils/showToast";
 import { useAuth } from "@/src/providers/AuthProvider";
 import * as api from "@/src/services/userApi";
 import { useRouter } from "expo-router";
+import convertToBase64 from "@/src/utils/convertToBase64";
 
 export default function Settings() {
   const { isAuthenticated, email, profilePictureUrl, username, playerId } =
@@ -45,9 +46,10 @@ export default function Settings() {
   };
 
   const handleUpdateProfile = async () => {
+    const profilePictureBase64 = await convertToBase64(profilePicture);
     await api.updateProfile({
       username: user,
-      image: profilePicture,
+      image: profilePictureBase64,
       playerId,
     });
   };
