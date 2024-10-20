@@ -1,10 +1,15 @@
 import React from "react";
-import { RootSiblingParent } from 'react-native-root-siblings';
+import Toast from "react-native-toast-message";
 
-export default function ToastProvider({children}: {children: React.ReactNode}) {
-    return( 
-        <RootSiblingParent>
-            {children}
-        </RootSiblingParent>
-    )
+export default function ToastProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      {children}
+      <Toast />
+    </>
+  );
 }

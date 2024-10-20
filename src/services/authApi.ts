@@ -19,7 +19,7 @@ const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 
 export const login = async (details: InputType) => {
   try {
-    const toastId = toast.showToastLong("loading...");
+    toast.showInfoToast("Login", "loading...");
     const response = await fetch(`${BACKEND_URL}/${BASE}/login`, {
       method: "POST",
       headers: {
@@ -28,24 +28,24 @@ export const login = async (details: InputType) => {
       body: JSON.stringify(details),
     });
     const data: { message: string; user: UserResponse } = await response.json();
-    toast.endToast(toastId);
+    toast.endToast();
     if (data.message === "User login successfully") {
       await storage.storeObject("user", data.user);
       // convert to jwt later
       await storage.storeString("id", data.user.playerId);
-      toast.showToastShort(data.message);
+      toast.showSuccessToast("Login",data.message);
       return "success";
     }
-    toast.showToastShort(data.message);
+    toast.showErrorToast("Login", data.message);
   } catch (err) {
     console.log(err);
-    toast.showToastShort("Internal server error, try again later");
+    toast.showErrorToast("Login", "Internal server error, try again later");
   }
 };
 
 export const register = async (details: InputType) => {
   try {
-    const toastId = toast.showToastLong("loading...");
+    toast.showInfoToast("Register", "loading...");
     const response = await fetch(
       `${BACKEND_URL}/${BASE}/register`,
       {
@@ -57,16 +57,16 @@ export const register = async (details: InputType) => {
       }
     );
     const data = await response.json();
-    toast.endToast(toastId);
+    toast.endToast();
     if (data.message === "User registered successfully") {
-      toast.showToastShort(data.message);
+      toast.showSuccessToast("Register", data.message);
       const res = await login(details);
       return res;
     }
-    toast.showToastShort(data.message);
+    toast.showErrorToast("Register",data.message);
   } catch (err) {
     console.log(err);
-    toast.showToastShort("Internal server error, try again later");
+    toast.showErrorToast("Register", "Internal server error, try again later");
   }
 };
 

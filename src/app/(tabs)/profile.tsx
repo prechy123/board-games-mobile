@@ -1,6 +1,6 @@
 import MyButton from "@/src/components/MyButton";
 import MyTextInput from "@/src/components/MyTextInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Image,
   KeyboardAvoidingView,

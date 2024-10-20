@@ -1,19 +1,54 @@
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
+  View,
+} from "react-native";
 import { Text } from "react-native-paper";
 import MyTextInput from "../components/MyTextInput";
 import { useState } from "react";
 import MyButton from "../components/MyButton";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
+import { showErrorToast } from "../utils/showToast";
+import * as api from "../services/authApi";
+import { useDispatch } from "react-redux";
+import { isAuth } from "../redux/reducers/authSlice";
+import * as storage from "../utils/asyncStorage";
 
 export default function signInScreen() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleLogIn = async () => {
+    if (email === "" || password === "")
+      return showErrorToast("Login", "Email or Password not filled");
+    const status = await api.login({ email, password });
+    if (status && status === "success") {
+      const userData = await storage.getObject("user");
+      if (userData) {
+        dispatch(
+          isAuth({
+            isAuthenticated: true,
+            email: userData.email,
+            profilePictureUrl: userData.profilePictureUrl,
+            username: userData.username,
+            playerId: userData.playerId,
+          })
+        );
+        router.push("/");
+      }
+    }
+  };
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Stack.Screen options={{headerBackTitle: "Back"}} />
+      <Stack.Screen options={{ headerBackTitle: "Back" }} />
       <Text style={styles.heading}>Login to your Board Games account</Text>
       <View>
         <View style={styles.inputContainer}>
@@ -22,9 +57,11 @@ export default function signInScreen() {
         <View style={styles.inputContainer}>
           <MyTextInput label="Password" text={password} setText={setPassword} />
         </View>
-        <View style={{ alignSelf: "flex-start", marginVertical: 10 }}>
-          <MyButton title="Log in" link="/" />
-        </View>
+        <Pressable onPress={handleLogIn}>
+          <View style={{ alignSelf: "flex-start", marginVertical: 10 }}>
+            <MyButton title="Log in" />
+          </View>
+        </Pressable>
       </View>
       <Link href="/sign-up">
         <Text style={{ textAlign: "left" }}>

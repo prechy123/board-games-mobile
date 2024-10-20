@@ -1,17 +1,30 @@
-import Toast from "react-native-root-toast";
+import Toast from 'react-native-toast-message';
 
-export function showToastShort(message: string): string {
-  return Toast.show(message, {
-    duration: Toast.durations.SHORT,
+export function showSuccessToast(topic: string,message: string) {
+  Toast.show({
+    type: 'success',
+    text1: topic,
+    text2: message,
+    position: "bottom"
+  });
+}
+export function showErrorToast(topic: string,message: string) {
+  Toast.show({
+    type: "error",
+    text1: topic,
+    text2: message,
+    position: "bottom"
+  });
+}
+export function showInfoToast(topic: string,message: string) {
+  Toast.show({
+    type: "info",
+    text1: topic,
+    text2: message,
+    position: "bottom"
   });
 }
 
-export function showToastLong(message: string) : string {
-  return Toast.show(message, {
-    duration: Toast.durations.LONG,
-  });
-}
-
-export function endToast(id: string) {
-  Toast.hide(id);
+export function endToast() {
+  Toast.hide();
 }
