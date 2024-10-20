@@ -1,20 +1,57 @@
 import MyButton from "@/src/components/MyButton";
 import MyTextInput from "@/src/components/MyTextInput";
+import { useAuth } from "@/src/providers/AuthProvider";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   StyleSheet,
   View,
 } from "react-native";
 import { Text } from "react-native-paper";
+import * as toast from "@/src/utils/showToast"
+import { io } from "socket.io-client";
+
+const socket = io(`${process.env.EXPO_PUBLIC_BACKEND_URL}/tic-tac-toe`);
 
 export default function TicTacToxIndex() {
   const router = useRouter();
   const [code, setCode] = useState<string>("");
+  const {playerId} = useAuth()
+  const [joining, setJoining] = useState(false);
+
+  const createGame = () => {
+    toast.showInfoToast("Tic Tac Toe", "Creating Game...")
+    socket.emit("createGame", {playerId})
+  }
+  const joinGame = () => {
+    toast.showInfoToast("Tic Tac Toe", "Joining Game...")
+    setJoining(true);
+    socket.emit("joinGame", { playerId, gameCode: code });
+  }
+
+  // useEffect(() => {
+  //   socket.on("joinedGame", (data) => {
+  //     toast.endToast();
+  //     // showToast("success", "Joined Game");
+  //     if (joining) {
+  //       router.push(`tic-tac-toe/${data.gameCode}?state=join`);
+  //     } else {
+  //       router.push(`tic-tac-toe/${data.gameCode}?state=create`);
+  //     }
+  //   });
+
+  //   socket.on("error", (data) => {
+  //     toast.dismiss();
+  //     showToast("error", data);
+  //   });
+
+  //   return () => {
+  //     socket.off("joinedGame");
+  //   };
+  // }, [route, joining]);
   return (
     <KeyboardAvoidingView
       style={styles.container}
