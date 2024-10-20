@@ -1,5 +1,5 @@
 import MyButton from "@/src/components/MyButton";
-import { Appearance, StyleSheet, View } from "react-native";
+import {  StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
 const games = [
@@ -20,8 +20,6 @@ export default function Index() {
           <MyButton title={game.title} link={game.link} />
         </View>
       ))}
-      <MyButton link="/sign-in" title="Sign in" />
-      <MyButton link="/sign-up" title="Sign up" />
     </View>
   );
 }

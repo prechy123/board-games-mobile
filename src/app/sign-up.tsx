@@ -7,19 +7,21 @@ import {
 } from "react-native";
 import { Text } from "react-native-paper";
 import MyTextInput from "../components/MyTextInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyButton from "../components/MyButton";
 import { Link, Stack, useRouter } from "expo-router";
 import * as api from "../services/authApi";
-import { useDispatch } from "react-redux";
-import { isAuth } from "../redux/reducers/authSlice";
+// import { useDispatch } from "react-redux";
+// import { isAuth } from "../redux/reducers/authSlice";
 import * as storage from "../utils/asyncStorage";
 import { emailSchema, passwordSchema } from "../types/schema";
 import { showErrorToast } from "../utils/showToast";
+import { useAuth } from "../providers/AuthProvider";
 // import Toast from "react-native-root-toast";
 
 export default function signUpScreen() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const { setAuth, isAuthenticated } = useAuth();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -29,31 +31,33 @@ export default function signUpScreen() {
     const emailValidation = emailSchema.safeParse(email);
     const passwordValidation = passwordSchema.safeParse(password);
     if (!emailValidation.success) {
-      showErrorToast("Register", emailValidation.error.errors[0].message)
+      showErrorToast("Register", emailValidation.error.errors[0].message);
       return;
     }
 
     if (!passwordValidation.success) {
-      showErrorToast("Register", passwordValidation.error.errors[0].message)
+      showErrorToast("Register", passwordValidation.error.errors[0].message);
       return;
     }
     const status = await api.register({ email, password });
     if (status && status === "success") {
       const userData = await storage.getObject("user");
       if (userData) {
-        dispatch(
-          isAuth({
-            isAuthenticated: true,
-            email: userData.email,
-            profilePictureUrl: userData.profilePictureUrl,
-            username: userData.username,
-            playerId: userData.playerId,
-          })
-        );
+        setAuth((prev) => ({
+          ...prev,
+          isAuthenticated: true,
+          email: userData.email,
+          profilePictureUrl: userData.profilePictureUrl,
+          username: userData.username,
+          playerId: userData.playerId,
+        }));
+        
         router.push("/");
+        // router.back()
       }
     }
   };
+  
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -74,7 +78,7 @@ export default function signUpScreen() {
           </View>
         </Pressable>
       </View>
-      <Link href="/sign-in">
+      <Link href="/sign-in" style={{marginTop: 10}}>
         <Text style={{ textAlign: "left" }}>
           Already have an account? Sign in
         </Text>

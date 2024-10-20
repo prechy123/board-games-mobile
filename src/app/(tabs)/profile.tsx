@@ -1,6 +1,6 @@
 import MyButton from "@/src/components/MyButton";
 import MyTextInput from "@/src/components/MyTextInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Image,
   KeyboardAvoidingView,
@@ -13,13 +13,17 @@ import { Text } from "react-native-paper";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useTheme } from "@/src/providers/ThemeProvider";
+import { showErrorToast } from "@/src/utils/showToast";
+import { useAuth } from "@/src/providers/AuthProvider";
+import * as api from "@/src/services/userApi";
+import { useRouter } from "expo-router";
 
 export default function Settings() {
-  const [username, setUsername] = useState("JohnDoe");
+  const { isAuthenticated, email, profilePictureUrl, username, playerId } =
+    useAuth();
+  const [user, setUser] = useState(username);
   const { theme } = useTheme();
-  const [profilePicture, setProfilePicture] = useState(
-    "https://raw.githubusercontent.com/nz-m/public-files/main/dp.jpg"
-  );
+  const [profilePicture, setProfilePicture] = useState(profilePictureUrl);
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -36,51 +40,64 @@ export default function Settings() {
     if (!result.canceled) {
       setProfilePicture(result.assets[0].uri);
     } else {
-      alert("You did not select any image.");
+      showErrorToast("Profile", "You did not select any image.");
     }
+  };
+
+  const handleUpdateProfile = async () => {
+    await api.updateProfile({
+      username: user,
+      image: profilePicture,
+      playerId,
+    });
   };
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View style={{ width: 250, alignItems: "center" }}>
-        <View style={{ width: 250 }}>
-          <MyTextInput
-            label="User Name"
-            text={username}
-            setText={setUsername}
-          />
-        </View>
-        <Text style={{ alignSelf: "flex-start", ...styles.subHeading }}>
-          Email Address:
-        </Text>
-        <Text>testuser1@gmail.com </Text>
-        <Text style={{ alignSelf: "flex-start", ...styles.subHeading }}>
-          Profile Picture:
-        </Text>
-        <Pressable onPress={pickImage}>
-          <View style={{ position: "relative" }}>
-            <Image
-              source={{ uri: profilePicture }}
-              width={100}
-              height={100}
-              borderRadius={50}
-              resizeMode="cover"
-            />
-            <View style={{ position: "absolute", right: -5, top: -5 }}>
-              <SimpleLineIcons
-                name="plus"
-                size={24}
-                color={theme === "dark" ? "#fff" : "#000"}
-              />
-            </View>
+      {isAuthenticated ? (
+        <View style={{ width: 250, alignItems: "center" }}>
+          <View style={{ width: 250 }}>
+            <MyTextInput label="User Name" text={user} setText={setUser} />
           </View>
-        </Pressable>
-        <View style={{ alignSelf: "flex-end" }}>
-          <MyButton title="Update" />
+          <Text style={{ alignSelf: "flex-start", ...styles.subHeading }}>
+            Email Address:
+          </Text>
+          <Text>{email}</Text>
+          <Text style={{ alignSelf: "flex-start", ...styles.subHeading }}>
+            Profile Picture:
+          </Text>
+          <Pressable onPress={pickImage}>
+            <View style={{ position: "relative" }}>
+              <Image
+                source={{ uri: profilePicture }}
+                width={100}
+                height={100}
+                borderRadius={50}
+                resizeMode="cover"
+              />
+              <View style={{ position: "absolute", right: -5, top: -5 }}>
+                <SimpleLineIcons
+                  name="plus"
+                  size={24}
+                  color={theme === "dark" ? "#fff" : "#000"}
+                />
+              </View>
+            </View>
+          </Pressable>
+          <Pressable onPress={handleUpdateProfile} style={{marginTop: 10}}>
+            <View style={{ alignSelf: "flex-end" }}>
+              <MyButton title="Update" />
+            </View>
+          </Pressable>
         </View>
-      </View>
+      ) : (
+        <View style={{ width: 250, alignItems: "center" }}>
+          <Text>You are not logged in</Text>
+          <MyButton title="Log in" link="/sign-in" />
+        </View>
+      )}
     </KeyboardAvoidingView>
   );
 }

@@ -12,12 +12,11 @@ import MyButton from "../components/MyButton";
 import { Link, Stack, useRouter } from "expo-router";
 import { showErrorToast } from "../utils/showToast";
 import * as api from "../services/authApi";
-import { useDispatch } from "react-redux";
-import { isAuth } from "../redux/reducers/authSlice";
 import * as storage from "../utils/asyncStorage";
+import { useAuth } from "../providers/AuthProvider";
 
 export default function signInScreen() {
-  const dispatch = useDispatch();
+  const {setAuth} = useAuth()
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -30,16 +29,17 @@ export default function signInScreen() {
     if (status && status === "success") {
       const userData = await storage.getObject("user");
       if (userData) {
-        dispatch(
-          isAuth({
-            isAuthenticated: true,
-            email: userData.email,
-            profilePictureUrl: userData.profilePictureUrl,
-            username: userData.username,
-            playerId: userData.playerId,
-          })
-        );
+        setAuth((prev) => ({
+          ...prev,
+          isAuthenticated: true,
+          email: userData.email,
+          profilePictureUrl: userData.profilePictureUrl,
+          username: userData.username,
+          playerId: userData.playerId,
+        }));
+
         router.push("/");
+        // router.back()
       }
     }
   };
@@ -63,7 +63,7 @@ export default function signInScreen() {
           </View>
         </Pressable>
       </View>
-      <Link href="/sign-up">
+      <Link href="/sign-up" style={{marginTop: 10}}>
         <Text style={{ textAlign: "left" }}>
           Already have an account? Sign Up
         </Text>

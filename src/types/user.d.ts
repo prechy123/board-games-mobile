@@ -12,6 +12,7 @@ export interface PlayerState {
 
 export interface AuthState extends IUser {
   isAuthenticated: boolean;
+  setAuth: React.Dispatch<React.SetStateAction<AuthState>>;
 }
 
 export interface RootState {
