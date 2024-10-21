@@ -57,11 +57,9 @@ export default function signInScreen() {
         <View style={styles.inputContainer}>
           <MyTextInput label="Password" text={password} setText={setPassword} />
         </View>
-        <Pressable onPress={handleLogIn}>
           <View style={{ alignSelf: "flex-start", marginVertical: 10 }}>
-            <MyButton title="Log in" />
+            <MyButton title="Log in" onClick={handleLogIn}/>
           </View>
-        </Pressable>
       </View>
       <Link href="/sign-up" style={{marginTop: 10}}>
         <Text style={{ textAlign: "left" }}>

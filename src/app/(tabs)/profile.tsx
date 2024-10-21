@@ -16,7 +16,6 @@ import { useTheme } from "@/src/providers/ThemeProvider";
 import { showErrorToast } from "@/src/utils/showToast";
 import { useAuth } from "@/src/providers/AuthProvider";
 import * as api from "@/src/services/userApi";
-import { useRouter } from "expo-router";
 import convertToBase64 from "@/src/utils/convertToBase64";
 
 export default function Settings() {
@@ -25,6 +24,7 @@ export default function Settings() {
   const [user, setUser] = useState(username);
   const { theme } = useTheme();
   const [profilePicture, setProfilePicture] = useState(profilePictureUrl);
+  const [profilePictureChange, setProfilePictureChange] = useState(false);
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -40,16 +40,21 @@ export default function Settings() {
 
     if (!result.canceled) {
       setProfilePicture(result.assets[0].uri);
+      setProfilePictureChange(true);
     } else {
       showErrorToast("Profile", "You did not select any image.");
     }
   };
 
   const handleUpdateProfile = async () => {
-    const profilePictureBase64 = await convertToBase64(profilePicture);
+    let newProfilePicture = "";
+    if (profilePictureChange) {
+      newProfilePicture = await convertToBase64(profilePicture);
+      setProfilePictureChange(false);
+    }
     await api.updateProfile({
       username: user,
-      image: profilePictureBase64,
+      image: newProfilePicture,
       playerId,
     });
   };
@@ -88,11 +93,9 @@ export default function Settings() {
               </View>
             </View>
           </Pressable>
-          <Pressable onPress={handleUpdateProfile} style={{marginTop: 10}}>
-            <View style={{ alignSelf: "flex-end" }}>
-              <MyButton title="Update" />
-            </View>
-          </Pressable>
+          <View style={{ alignSelf: "flex-end", marginTop: 10 }}>
+            <MyButton title="Update" onClick={handleUpdateProfile} />
+          </View>
         </View>
       ) : (
         <View style={{ width: 250, alignItems: "center" }}>

@@ -11,17 +11,13 @@ import { useEffect, useState } from "react";
 import MyButton from "../components/MyButton";
 import { Link, Stack, useRouter } from "expo-router";
 import * as api from "../services/authApi";
-// import { useDispatch } from "react-redux";
-// import { isAuth } from "../redux/reducers/authSlice";
 import * as storage from "../utils/asyncStorage";
 import { emailSchema, passwordSchema } from "../types/schema";
 import { showErrorToast } from "../utils/showToast";
 import { useAuth } from "../providers/AuthProvider";
-// import Toast from "react-native-root-toast";
 
 export default function signUpScreen() {
-  // const dispatch = useDispatch();
-  const { setAuth, isAuthenticated } = useAuth();
+  const { setAuth } = useAuth();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -72,11 +68,9 @@ export default function signUpScreen() {
         <View style={styles.inputContainer}>
           <MyTextInput label="Password" text={password} setText={setPassword} />
         </View>
-        <Pressable onPress={handleRegistration}>
           <View style={{ alignSelf: "flex-start", marginVertical: 10 }}>
-            <MyButton title="Register" />
+            <MyButton title="Register" onClick={handleRegistration}/>
           </View>
-        </Pressable>
       </View>
       <Link href="/sign-in" style={{marginTop: 10}}>
         <Text style={{ textAlign: "left" }}>

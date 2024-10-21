@@ -16,7 +16,7 @@ export default function TicTacToeLayout() {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ title: "Play Tic Tac Toe" }} />
-      <Stack.Screen name="game" options={{ title: "Game" }} />
+      <Stack.Screen name="ticTacToeBoard" options={{ title: "Tic Tac Toe" }} />
     </Stack>
   );
 }

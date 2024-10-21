@@ -5,7 +5,8 @@ export function showSuccessToast(topic: string,message: string) {
     type: 'success',
     text1: topic,
     text2: message,
-    position: "bottom"
+    position: "bottom",
+    visibilityTime: 7000
   });
 }
 export function showErrorToast(topic: string,message: string) {
@@ -13,7 +14,8 @@ export function showErrorToast(topic: string,message: string) {
     type: "error",
     text1: topic,
     text2: message,
-    position: "bottom"
+    position: "bottom",
+    visibilityTime: 7000
   });
 }
 export function showInfoToast(topic: string,message: string) {
@@ -21,7 +23,8 @@ export function showInfoToast(topic: string,message: string) {
     type: "info",
     text1: topic,
     text2: message,
-    position: "bottom"
+    position: "bottom",
+    visibilityTime: 7000
   });
 }
 
