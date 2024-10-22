@@ -19,7 +19,7 @@ const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 
 export const login = async (details: InputType) => {
   try {
-    toast.showInfoToast("Login", "loading...");
+    toast.showInfoToast("loading...","Login", );
     const response = await fetch(`${BACKEND_URL}/${BASE}/login`, {
       method: "POST",
       headers: {
@@ -33,19 +33,19 @@ export const login = async (details: InputType) => {
       await storage.storeObject("user", data.user);
       // convert to jwt later
       await storage.storeString("id", data.user.playerId);
-      toast.showSuccessToast("Login",data.message);
+      toast.showSuccessToast(data.message,"Login",);
       return "success";
     }
     toast.showErrorToast("Login", data.message);
   } catch (err) {
     console.log(err);
-    toast.showErrorToast("Login", "Internal server error, try again later");
+    toast.showErrorToast("Internal server error, try again later", "Login", );
   }
 };
 
 export const register = async (details: InputType) => {
   try {
-    toast.showInfoToast("Register", "loading...");
+    toast.showInfoToast("loading...", "Register", );
     const response = await fetch(
       `${BACKEND_URL}/${BASE}/register`,
       {
@@ -59,14 +59,14 @@ export const register = async (details: InputType) => {
     const data = await response.json();
     toast.endToast();
     if (data.message === "User registered successfully") {
-      toast.showSuccessToast("Register", data.message);
+      toast.showSuccessToast(data.message, "Register", );
       const res = await login(details);
       return res;
     }
     toast.showErrorToast("Register",data.message);
   } catch (err) {
     console.log(err);
-    toast.showErrorToast("Register", "Internal server error, try again later");
+    toast.showErrorToast("Internal server error, try again later", "Register", );
   }
 };
 

@@ -1,6 +1,5 @@
 import { Stack, Tabs } from "expo-router";
 import AllProvider from "../providers/AllProvider";
-import { useAuth } from "../providers/AuthProvider";
 
 export default function RootLayout() {
   return (

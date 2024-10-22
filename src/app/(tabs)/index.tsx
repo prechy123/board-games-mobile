@@ -20,6 +20,7 @@ export default function Index() {
           <MyButton title={game.title} link={game.link} />
         </View>
       ))}
+      {/* <MyButton title="sign in" link="/sign-in" /> */}
     </View>
   );
 }

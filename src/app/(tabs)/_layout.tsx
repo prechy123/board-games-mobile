@@ -1,4 +1,4 @@
-import { Tabs, useRouter } from "expo-router";
+import { Tabs } from "expo-router";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 export default function TabLayout() {
