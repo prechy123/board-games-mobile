@@ -5,6 +5,7 @@ import { useAuth } from "@/src/providers/AuthProvider";
 import { io } from "socket.io-client";
 import * as toast from "@/src/utils/showToast";
 import PlayersCard from "./PlayerCard";
+import ChatBox from "../ChatBot";
 
 const socket = io(`${process.env.EXPO_PUBLIC_BACKEND_URL}/tic-tac-toe`);
 
@@ -73,7 +74,7 @@ export default function MyTiles({ gameCode, currentPlayer }: Props) {
     });
   }, []);
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.tilesWrapper}>
         <View style={styles.tile}>
           <Tile value={buttons[0][0]} handleClick={() => handleClick(0, 0)} />
@@ -92,11 +93,13 @@ export default function MyTiles({ gameCode, currentPlayer }: Props) {
         </View>
       </View>
       <PlayersCard gameCode={gameCode} winner={winner} />
+      <ChatBox gameCode={gameCode} currentPlayer={currentPlayer} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {flex: 1, justifyContent: "center"},
   tilesWrapper: { flexDirection: "column", gap: 20, borderRadius: 10 },
   tile: { gap: 10, flexDirection: "row"}
 });
