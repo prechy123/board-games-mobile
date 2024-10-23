@@ -45,12 +45,12 @@ export default function TicTacToxIndex() {
       toast.endToast();
       toast.showSuccessToast("Joined Game", "Tic Tac Toe");
       if (joining) {
-        navigation.navigate("ticTacToeBoard", {
+        navigation.replace("ticTacToeBoard", {
           id: data.gameCode,
           state: "join",
         });
       } else {
-        navigation.navigate("ticTacToeBoard", {
+        navigation.replace("ticTacToeBoard", {
           id: data.gameCode,
           state: "create",
         });
@@ -69,7 +69,7 @@ export default function TicTacToxIndex() {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      // behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <Text style={styles.heading}>Tic Tac Toe</Text>
 

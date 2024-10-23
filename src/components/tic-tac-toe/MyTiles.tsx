@@ -5,7 +5,7 @@ import { useAuth } from "@/src/providers/AuthProvider";
 import { io } from "socket.io-client";
 import * as toast from "@/src/utils/showToast";
 import PlayersCard from "./PlayerCard";
-import ChatBox from "../ChatBot";
+import ChatBox from "../ChatBox";
 
 const socket = io(`${process.env.EXPO_PUBLIC_BACKEND_URL}/tic-tac-toe`);
 
@@ -99,7 +99,7 @@ export default function MyTiles({ gameCode, currentPlayer }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1, justifyContent: "center"},
+  container: {flex: 1, justifyContent: "center", width: "100%", alignItems: "center"},
   tilesWrapper: { flexDirection: "column", gap: 20, borderRadius: 10 },
   tile: { gap: 10, flexDirection: "row"}
 });

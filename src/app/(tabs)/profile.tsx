@@ -61,7 +61,7 @@ export default function Settings() {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      // behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       {isAuthenticated ? (
         <View style={{ width: 250, alignItems: "center" }}>

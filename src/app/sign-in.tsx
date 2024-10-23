@@ -46,7 +46,7 @@ export default function signInScreen() {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      // behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <Stack.Screen options={{ headerBackTitle: "Back" }} />
       <Text style={styles.heading}>Login to your Board Games account</Text>

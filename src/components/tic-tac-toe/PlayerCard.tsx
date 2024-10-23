@@ -45,7 +45,7 @@ const PlayersCard = ({ gameCode, winner }: IPlayerCard) => {
   }, [gameCode]);
 
   return (
-    <View style={{justifyContent: "space-around", alignItems: "center", marginTop: 20, flexDirection: 'row'}}>
+    <View style={{justifyContent: "space-around", alignItems: "center", marginTop: 20, flexDirection: 'row', gap: 12}}>
       <View>
         <Image
           source={{uri: player1.profilePictureUrl}}
@@ -54,11 +54,8 @@ const PlayersCard = ({ gameCode, winner }: IPlayerCard) => {
           alt="Player 1"
           borderRadius={50}
           
-        //   className=" rounded-full w-[70px] h-[70px] object-cover"
         />
         <Text style={{textAlign: "center"}}>{player1.userName}</Text>
-        {/* {playerTurn === player1._id && <span className=" w-full h-2 bg-slate-700 block"></span>}
-        {playerTurn === "defaultPlayerId" && <span className=" w-full h-2 bg-slate-700 block"></span>} */}
       </View>
       <Text style={{fontWeight: "bold"}}>VS</Text>
       <View>

@@ -1,5 +1,5 @@
 {
-  "name": "board-game-react-native",
+  "name": "board-game",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {

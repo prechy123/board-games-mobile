@@ -57,7 +57,7 @@ export default function signUpScreen() {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      // behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <Stack.Screen options={{ headerBackTitle: "Back" }} />
       <Text style={styles.heading}>Create an account with Board Games</Text>

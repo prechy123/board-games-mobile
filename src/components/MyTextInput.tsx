@@ -5,6 +5,7 @@ interface Props {
   text: string;
   label: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
+  multiLine?: boolean;
 }
 
 const MyTextInput = (props: Props) => {
@@ -13,6 +14,8 @@ const MyTextInput = (props: Props) => {
       label={props.label}
       value={props.text}
       onChangeText={props.setText}
+      multiline={props.multiLine ? true: false}
+      numberOfLines={2}
       mode="outlined"
     />
   );
