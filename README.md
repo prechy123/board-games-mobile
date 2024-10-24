@@ -4,13 +4,18 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 ## Get started
 
-1. Install dependencies
+1. Create .env file
+      ```bash
+         EXPO_PUBLIC_BACKEND_URL=[follow instruction here (https://github.com/prechy123/board-games) and host server locally and insert route here]
+      ``` 
+
+2. Install dependencies
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Start the app
 
    ```bash
     npx expo start
